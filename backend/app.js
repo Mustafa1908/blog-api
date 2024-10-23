@@ -1,5 +1,6 @@
 const express = require("express");
 const session = require("express-session");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 const authentificationRouter = require("./routes/authentificationRouter");
 const blogRouter = require("./routes/blogRouter");
@@ -15,6 +16,7 @@ app.use(
     cookie: { secure: false }, // Set to true if using HTTPS
   })
 );
+app.use(cors());
 
 app.use("/", authentificationRouter, blogRouter);
 
