@@ -22,7 +22,7 @@ model Post {
   id      Int      @id @default(autoincrement())
   postTitle   String   @unique
   postText    String
-  published Boolean @default(false)
+  published Boolean @default(true)
   createdAt DateTime @default(now()) 
   author User @relation(fields: [authorId], references: [id])
   authorId  Int
