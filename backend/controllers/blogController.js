@@ -1,20 +1,16 @@
 const { PrismaClient } = require("@prisma/client");
-
+const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
 
 const createPost = async (req, res) => {
   const { postTitle, postText } = req.body;
 
-  if (!req.session || !req.session.userId) {
-    return res.status(403).json({ message: "Unauthorized" });
-  }
-
   try {
     const post = await prisma.post.create({
       data: {
-        postTitle,
-        postText,
-        authorId: req.session.userId,
+        postTitle: postTitle,
+        postText: postText,
+        authorId: req.authData.userId, // Use userId from authData
       },
     });
 
@@ -83,12 +79,10 @@ const deletePost = async (req, res) => {
 };
 
 const changePublishedStatue = async (req, res) => {
-  const { postId } = req.body;
-
   try {
     const post = await prisma.post.findUnique({
       where: {
-        id: postId,
+        id: parseInt(req.params.post),
       },
     });
 
@@ -98,7 +92,7 @@ const changePublishedStatue = async (req, res) => {
 
     const updatedPost = await prisma.post.update({
       where: {
-        id: postId,
+        id: parseInt(req.params.post),
       },
       data: {
         published: !post.published,
@@ -114,7 +108,7 @@ const changePublishedStatue = async (req, res) => {
 
 const createComment = async (req, res) => {
   const { comment } = req.body;
-  const { post } = req.params;
+  const { postId, userId } = req.params;
 
   if (!comment) {
     return res.status(400).json({ message: "Comment is required." });
@@ -124,13 +118,16 @@ const createComment = async (req, res) => {
     const userComment = await prisma.comment.create({
       data: {
         comment: comment,
-        authorId: parseInt(post),
+        postId: parseInt(postId),
+        userId: parseInt(userId),
       },
     });
 
     res.status(201).json({
       message: "Comment created successfully",
       comment: userComment,
+      postId: postId,
+      userId: userId,
     });
   } catch (error) {
     console.error("Error creating comment:", error);
@@ -139,12 +136,13 @@ const createComment = async (req, res) => {
 };
 
 const editComment = async (req, res) => {
-  const { userComment, commentId } = req.body;
+  const { userComment } = req.body;
+  const { commentId } = req.params;
 
   try {
     const updatedComment = await prisma.comment.update({
       where: {
-        id: commentId,
+        id: parseInt(commentId),
       },
       data: {
         comment: userComment,
@@ -159,8 +157,7 @@ const editComment = async (req, res) => {
 };
 
 const deleteComment = async (req, res) => {
-  const { post } = req.params;
-  const { commentId } = req.body;
+  const { commentId } = req.params;
 
   try {
     const deletedComment = await prisma.comment.delete({
