@@ -17,18 +17,18 @@ const getAllPosts = async (req, res) => {
 };
 
 const getAllPostComments = async (req, res) => {
-  const postId = parseInt(req.params.postId, 10); // Get post ID from request params
+  const postId = parseInt(req.params.postId, 10);
 
   try {
     const comments = await prisma.comment.findMany({
       where: {
-        postId: postId, // Filter comments by post ID
+        postId: postId,
       },
       include: {
         user: {
           select: {
-            id: true, // Select user ID
-            username: true, // Select username
+            id: true,
+            username: true,
           },
         },
       },
