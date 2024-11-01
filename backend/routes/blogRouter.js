@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"]?.split(" ")[1]; // Extract token
+  const token = req.headers["authorization"]?.split(" ")[1];
 
   if (!token) {
     return res.status(403).json({ message: "No token provided" });
@@ -14,11 +14,13 @@ const verifyToken = (req, res, next) => {
     if (err) {
       return res.status(403).json({ message: "Unauthorized" });
     }
-    req.authData = authData; // Attach authData to request for later use
-    next(); // Call next middleware/handler
+    req.authData = authData;
   });
+  next();
 };
 
+router.get("/post", verifyToken, blogController.getAllPosts);
+router.get("/blog/:postId", verifyToken, blogController.getAllPostComments);
 router.post("/post/new", verifyToken, blogController.createPost);
 router.patch(
   "/blog/post/:post",
