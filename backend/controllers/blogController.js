@@ -2,6 +2,51 @@ const { PrismaClient } = require("@prisma/client");
 const jwt = require("jsonwebtoken");
 const prisma = new PrismaClient();
 
+const getAllPosts = async (req, res) => {
+  try {
+    const posts = await prisma.post.findMany({
+      orderBy: {
+        id: "asc",
+      },
+    });
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+const getAllPostComments = async (req, res) => {
+  const postId = parseInt(req.params.postId, 10); // Get post ID from request params
+
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        postId: postId, // Filter comments by post ID
+      },
+      include: {
+        user: {
+          select: {
+            id: true, // Select user ID
+            username: true, // Select username
+          },
+        },
+      },
+    });
+
+    if (!comments.length) {
+      return res
+        .status(404)
+        .json({ message: "No comments found for this post." });
+    }
+
+    return res.json(comments);
+  } catch (error) {
+    console.error("Error fetching comments:", error);
+    return res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 const createPost = async (req, res) => {
   const { postTitle, postText } = req.body;
 
@@ -10,7 +55,7 @@ const createPost = async (req, res) => {
       data: {
         postTitle: postTitle,
         postText: postText,
-        authorId: req.authData.userId, // Use userId from authData
+        authorId: req.authData.userId,
       },
     });
 
@@ -179,6 +224,8 @@ const deleteComment = async (req, res) => {
 };
 
 module.exports = {
+  getAllPosts,
+  getAllPostComments,
   createPost,
   editPost,
   deletePost,
