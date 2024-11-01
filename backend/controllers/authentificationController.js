@@ -3,17 +3,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
 
-const secretKey = process.env.JWT_SECRET || "your_secret_key"; // Use environment variable for secret
-
-const getAllUsers = async (req, res) => {
-  try {
-    const users = await prisma.comment.findMany();
-    res.status(200).json(users);
-  } catch (error) {
-    console.error("Error fetching users:", error);
-    res.status(500).json({ message: "Server error" });
-  }
-};
+const secretKey = process.env.JWT_SECRET || "your_secret_key";
 
 const registerUser = async (req, res) => {
   const { username, password, email, role } = req.body;
@@ -42,8 +32,6 @@ const registerUser = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });
-  } finally {
-    await prisma.$disconnect();
   }
 };
 
@@ -65,10 +53,9 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    // Create a token
     jwt.sign(
-      { userId: user.id, username: user.username }, // Include relevant user info
-      process.env.JWT_SECRET || "secretkey", // Use environment variable for the secret
+      { userId: user.id, username: user.username },
+      process.env.JWT_SECRET || "secretkey",
       { expiresIn: "604800s" },
       (err, token) => {
         if (err) {
@@ -76,10 +63,9 @@ const loginUser = async (req, res) => {
           return res.status(500).json({ message: "Could not generate token" });
         }
 
-        // Send response with the token
         res.status(200).json({
           message: "Login successful",
-          token, // Send the token back to the client
+          token,
           user: { username: user.username, email: user.email },
         });
       }
@@ -93,7 +79,6 @@ const loginUser = async (req, res) => {
 };
 
 const logoutUser = async (req, res) => {
-  // Destroy the user session
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
@@ -114,7 +99,6 @@ const checkSession = (req, res) => {
 };
 
 module.exports = {
-  getAllUsers,
   registerUser,
   loginUser,
   logoutUser,
