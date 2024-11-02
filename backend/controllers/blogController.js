@@ -16,6 +16,27 @@ const getAllPosts = async (req, res) => {
   }
 };
 
+const getPost = async (req, res) => {
+  const postId = parseInt(req.params.postId, 10);
+
+  try {
+    const post = await prisma.post.findUnique({
+      where: { id: postId },
+      include: {
+        author: {
+          select: {
+            username: true, // Select only the username of the author
+          },
+        },
+      },
+    });
+    res.status(200).json(post);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
 const getAllPostComments = async (req, res) => {
   const postId = parseInt(req.params.postId, 10);
 
@@ -225,6 +246,7 @@ const deleteComment = async (req, res) => {
 
 module.exports = {
   getAllPosts,
+  getPost,
   getAllPostComments,
   createPost,
   editPost,
