@@ -19,8 +19,9 @@ const verifyToken = (req, res, next) => {
   next();
 };
 
-router.get("/post", verifyToken, blogController.getAllPosts);
-router.get("/blog/:postId", verifyToken, blogController.getAllPostComments);
+router.get("/post", blogController.getAllPosts);
+router.get("/post/:postId", blogController.getPost);
+router.get("/blog/:postId", blogController.getAllPostComments);
 router.post("/post/new", verifyToken, blogController.createPost);
 router.patch(
   "/blog/post/:post",
