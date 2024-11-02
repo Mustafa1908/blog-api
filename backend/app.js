@@ -10,10 +10,10 @@ app.use(bodyParser.json());
 
 app.use(
   session({
-    secret: "your_secret_key", // Change this to a secure random string
+    secret: "your_secret_key",
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }, // Set to true if using HTTPS
+    cookie: { secure: false },
   })
 );
 app.use(cors());
