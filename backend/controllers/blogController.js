@@ -176,11 +176,13 @@ const createComment = async (req, res) => {
   const { comment } = req.body;
   const { postId, userId } = req.params;
 
+  // Check if comment is provided, if not, send a response and return immediately
   if (!comment) {
     return res.status(400).json({ message: "Comment is required." });
   }
 
   try {
+    // Create the comment in the database
     const userComment = await prisma.comment.create({
       data: {
         comment: comment,
@@ -189,15 +191,19 @@ const createComment = async (req, res) => {
       },
     });
 
-    res.status(201).json({
+    // Send a success response with the created comment
+    return res.status(201).json({
       message: "Comment created successfully",
       comment: userComment,
       postId: postId,
       userId: userId,
     });
   } catch (error) {
+    // If an error occurs during the comment creation, send an error response
     console.error("Error creating comment:", error);
-    res.status(500).json({ message: "Server error", error: error.message });
+    return res
+      .status(500)
+      .json({ message: "Server error", error: error.message });
   }
 };
 
