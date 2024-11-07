@@ -1,9 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { UserContext } from "../app/App";
 
 const Blog = () => {
   const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
+  const { userRole, setUserRole } = useContext(UserContext);
 
   useEffect(() => {
     const getUserInfo = () => {
@@ -12,12 +14,15 @@ const Blog = () => {
         try {
           const decoded = JSON.parse(window.atob(token.split(".")[1]));
           setUser(decoded);
+          setUserRole("hey");
+          if (decoded.userRole === "author") {
+            console.log("hey");
+          }
         } catch (error) {
           console.error("Token decoding error:", error);
         }
       }
     };
-
     const getAllPosts = async () => {
       try {
         const response = await fetch("http://localhost:8000/post");
@@ -34,8 +39,7 @@ const Blog = () => {
 
     getUserInfo();
     getAllPosts();
-  }, []);
-
+  }, [posts]);
   const handleLogout = () => {
     localStorage.removeItem("token");
     setUser(null);
