@@ -6,15 +6,21 @@ const Register = () => {
     username: "",
     email: "",
     password: "",
+    userRole: "",
   });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    console.log("react");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "userRole") {
+      setFormData({ ...formData, userRole: value });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
+  };
+
+  const handleRegisterSubmit = async (e) => {
     e.preventDefault();
 
     try {
@@ -23,16 +29,10 @@ const Register = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username: formData.username,
-          password: formData.password,
-          email: formData.email,
-        }),
+        body: JSON.stringify(formData),
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("User registered successfully:", result.message);
         navigate("/login");
       } else {
         const errorData = await response.json();
@@ -44,7 +44,7 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleRegisterSubmit}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -80,6 +80,17 @@ const Register = () => {
           placeholder="Password"
           required
         />
+      </div>
+      <div>
+        <input
+          type="radio"
+          id="author"
+          name="userRole"
+          value="author"
+          checked={formData.userRole === "author"}
+          onChange={handleChange}
+        />
+        <label htmlFor="author">Author</label>
       </div>
       <button type="submit">Register</button>
     </form>

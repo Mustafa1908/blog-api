@@ -6,14 +6,13 @@ const Login = () => {
     username: "",
     password: "",
   });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
   const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
-    console.log("react");
+  const handleLoginChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
@@ -29,11 +28,9 @@ const Login = () => {
       });
 
       if (response.ok) {
-        const result = await response.json();
-        console.log("User registered successfully:", result.message);
-        console.log(result.token);
-        localStorage.setItem("token", result.token);
-        navigate("/");
+        const userLogin = await response.json();
+        localStorage.setItem("token", userLogin.token);
+        navigate("/blog");
       } else {
         const errorData = await response.json();
         console.error("Registration error:", errorData.message);
@@ -44,7 +41,7 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleLogin}>
       <div>
         <label htmlFor="username">Username:</label>
         <input
@@ -52,7 +49,7 @@ const Login = () => {
           name="username"
           id="username"
           value={formData.username}
-          onChange={handleChange}
+          onChange={handleLoginChange}
           placeholder="Username"
           required
         />
@@ -64,7 +61,7 @@ const Login = () => {
           name="password"
           id="password"
           value={formData.password}
-          onChange={handleChange}
+          onChange={handleLoginChange}
           placeholder="Password"
           required
         />
