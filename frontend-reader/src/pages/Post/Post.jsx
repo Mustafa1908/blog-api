@@ -165,18 +165,24 @@ const Post = () => {
           <div key={postComment.id}>
             <span>{postComment.createdAt}</span>
             <span> By {postComment.user?.username || "Unknown Author"}</span>
-            <span
-              className="material-icons"
-              onClick={() => deleteComment(postComment.id)}
-            >
-              delete
-            </span>
-            <span
-              className="material-icons"
-              onClick={() => startEditing(postComment.id, postComment.comment)}
-            >
-              edit
-            </span>
+            {user.userRole === "author" ? (
+              <>
+                <span
+                  className="material-icons"
+                  onClick={() => deleteComment(postComment.id)}
+                >
+                  delete
+                </span>
+                <span
+                  className="material-icons"
+                  onClick={() =>
+                    startEditing(postComment.id, postComment.comment)
+                  }
+                >
+                  edit
+                </span>
+              </>
+            ) : null}
 
             {editingCommentId === postComment.id ? (
               <div>
