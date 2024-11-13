@@ -25,7 +25,7 @@ const getPost = async (req, res) => {
       include: {
         author: {
           select: {
-            username: true, // Select only the username of the author
+            username: true,
           },
         },
       },
@@ -70,7 +70,6 @@ const getAllPostComments = async (req, res) => {
 
 const createPost = async (req, res) => {
   const { postTitle, postText } = req.body;
-
   try {
     const post = await prisma.post.create({
       data: {
@@ -94,34 +93,13 @@ const createPost = async (req, res) => {
   }
 };
 
-const editPost = async (req, res) => {
-  const { postId, postTitle, postText } = req.body;
-
-  try {
-    const updatedPost = await prisma.post.update({
-      where: {
-        id: postId,
-      },
-      data: {
-        postTitle: postTitle,
-        postText: postText,
-      },
-    });
-
-    return res.status(200).json(updatedPost);
-  } catch (error) {
-    console.error("Error updating post:", error);
-    return res.status(500).json({ message: "Error updating post" });
-  }
-};
-
 const deletePost = async (req, res) => {
   const { post } = req.params;
 
   try {
     await prisma.comment.deleteMany({
       where: {
-        id: parseInt(post),
+        postId: parseInt(post),
       },
     });
 
@@ -139,6 +117,14 @@ const deletePost = async (req, res) => {
     if (error.code === "P2025") {
       return res.status(404).json({ message: "Post not found" });
     }
+
+    if (error.code === "P2003") {
+      return res.status(400).json({
+        message:
+          "Cannot delete the post because there are comments or other dependencies.",
+      });
+    }
+
     console.error("Error deleting post or comments:", error);
     return res.status(500).json({ message: "Error deleting post or comments" });
   }
@@ -176,13 +162,11 @@ const createComment = async (req, res) => {
   const { comment } = req.body;
   const { postId, userId } = req.params;
 
-  // Check if comment is provided, if not, send a response and return immediately
   if (!comment) {
     return res.status(400).json({ message: "Comment is required." });
   }
 
   try {
-    // Create the comment in the database
     const userComment = await prisma.comment.create({
       data: {
         comment: comment,
@@ -191,7 +175,6 @@ const createComment = async (req, res) => {
       },
     });
 
-    // Send a success response with the created comment
     return res.status(201).json({
       message: "Comment created successfully",
       comment: userComment,
@@ -199,7 +182,6 @@ const createComment = async (req, res) => {
       userId: userId,
     });
   } catch (error) {
-    // If an error occurs during the comment creation, send an error response
     console.error("Error creating comment:", error);
     return res
       .status(500)
@@ -255,7 +237,6 @@ module.exports = {
   getPost,
   getAllPostComments,
   createPost,
-  editPost,
   deletePost,
   changePublishedStatue,
   createComment,
