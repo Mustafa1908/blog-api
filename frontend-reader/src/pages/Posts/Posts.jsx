@@ -1,10 +1,20 @@
 import { useEffect, useState } from "react";
 import allPosts from "./Posts.module.css";
+import { getUserInfo } from "../../utils/getUserInfo";
+import { useNavigate } from "react-router-dom";
 
 const Posts = () => {
+  const [user, setUser] = useState(null);
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ postTitle: "", postText: "" });
   const [showModal, setShowModal] = useState(false);
+  const navigate = useNavigate();
+
+  if (user !== null) {
+    if (user.userRole !== "author") {
+      navigate("/blog");
+    }
+  }
 
   const getAllPosts = async () => {
     try {
@@ -20,8 +30,9 @@ const Posts = () => {
   };
 
   useEffect(() => {
+    getUserInfo(setUser);
     getAllPosts();
-  }, [posts]);
+  }, []);
 
   const changePublicationStatus = async (post) => {
     try {
@@ -38,6 +49,8 @@ const Posts = () => {
     } catch (error) {
       console.error("Error changing post status:", error);
     }
+
+    getAllPosts();
   };
 
   const deletePost = async (post) => {
@@ -103,7 +116,6 @@ const Posts = () => {
     <div>
       <h1>All Blogs</h1>
       <button onClick={openModal}>Create Post</button>{" "}
-      {/* Create Post button */}
       <div>
         {posts.map((post) => (
           <div key={post.id}>
