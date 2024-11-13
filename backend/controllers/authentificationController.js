@@ -2,12 +2,13 @@ const { PrismaClient } = require("@prisma/client");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const prisma = new PrismaClient();
+const dotenv = require("dotenv");
 
-const secretKey = process.env.JWT_SECRET || "your_secret_key";
+dotenv.config();
+const secretKey = process.env.JWT_SECRET || process.env.SECRET_KEY;
 
 const registerUser = async (req, res) => {
-  const { username, password, email, role } = req.body;
-
+  const { username, password, email, userRole } = req.body;
   try {
     const existingUser = await prisma.user.findUnique({
       where: { username },
@@ -24,7 +25,7 @@ const registerUser = async (req, res) => {
         username,
         password: hashedPassword,
         email,
-        role,
+        role: userRole,
       },
     });
 
@@ -54,8 +55,8 @@ const loginUser = async (req, res) => {
     }
 
     jwt.sign(
-      { userId: user.id, username: user.username },
-      process.env.JWT_SECRET || "secretkey",
+      { userId: user.id, username: user.username, userRole: user.role },
+      process.env.JWT_SECRET || process.env.SECRET_KEY,
       { expiresIn: "604800s" },
       (err, token) => {
         if (err) {
