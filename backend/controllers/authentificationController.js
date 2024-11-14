@@ -57,7 +57,7 @@ const loginUser = async (req, res) => {
     jwt.sign(
       { userId: user.id, username: user.username, userRole: user.role },
       process.env.JWT_SECRET || process.env.SECRET_KEY,
-      { expiresIn: "604800s" },
+      { expiresIn: "604800s" }, //Expire in 1 week
       (err, token) => {
         if (err) {
           console.error(err);
@@ -92,16 +92,8 @@ const logoutUser = async (req, res) => {
   }
 };
 
-const checkSession = (req, res) => {
-  if (req.session && req.session.userId) {
-    return res.status(200).json({ message: "User is logged in" });
-  }
-  return res.status(401).json({ message: "User is not logged in" });
-};
-
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
-  checkSession,
 };
