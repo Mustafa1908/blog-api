@@ -17,13 +17,13 @@
   padding-right: 0.8rem;
 }
 
-.link {
+.navMainLink {
   font-size: var(--step-1);
   color: white;
   border: 3px solid transparent;
 }
 
-.link:hover {
+.navMainLink:hover {
   color: white;
   border-bottom: 3px solid white;
 }
