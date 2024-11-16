@@ -30,7 +30,7 @@ const Navbar = () => {
 
   return (
     <nav className={navbar.navbar}>
-      <Link className={navbar.link} to={"/blog"}>
+      <Link className={navbar.navMainLink} to={"/blog"}>
         Blog
       </Link>
       <section className={navbar.navSection}>
