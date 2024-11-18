@@ -1,0 +1,120 @@
+:root {
+  --step--2: clamp(0.7813rem, 0.7759rem + 0.0268vi, 0.8rem);
+  --step--1: clamp(0.9375rem, 0.9196rem + 0.0893vi, 1rem);
+  --step-0: clamp(1.125rem, 1.0893rem + 0.1786vi, 1.25rem);
+  --step-1: clamp(1.35rem, 1.2893rem + 0.3036vi, 1.5625rem);
+  --step-2: clamp(1.62rem, 1.5248rem + 0.4759vi, 1.9531rem);
+  --step-3: clamp(1.944rem, 1.8019rem + 0.7106vi, 2.4414rem);
+  --step-4: clamp(2.3328rem, 2.1274rem + 1.0271vi, 3.0518rem);
+  --step-5: clamp(2.7994rem, 2.5093rem + 1.4505vi, 3.8147rem);
+}
+
+.main {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 80rem;
+  min-height: 44vh;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 4rem;
+}
+
+.articleContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.3rem;
+  min-width: 19rem;
+  min-height: 25rem;
+  padding-top: 2rem;
+}
+
+.articleContainer:hover {
+  cursor: pointer;
+}
+
+.postTime {
+  word-break: break-word;
+  max-width: 15rem;
+  color: grey;
+  font-size: var(--step--1);
+}
+
+.postHeader {
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: black;
+  word-break: break-word;
+  max-width: 14rem;
+}
+
+.postText {
+  color: grey;
+  word-break: break-word;
+  max-width: 14rem;
+  font-size: var(--step--1);
+  max-height: 10.5rem;
+  overflow: hidden;
+}
+
+@media (min-width: 220px) and (max-width: 557px) {
+  .main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    max-width: 80rem;
+    min-height: 44vh;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 4rem;
+    border: 3px solid blueviolet;
+  }
+
+  .articleContainer {
+    min-width: 90vw;
+    min-height: 23rem;
+    margin-right: 4rem;
+  }
+
+  .postTime {
+    min-width: 70vw;
+  }
+
+  .postHeader {
+    min-width: 75vw;
+  }
+
+  .postText {
+    min-width: 75vw;
+  }
+}
+
+@media (min-width: 558px) and (max-width: 719px) {
+  .main {
+    gap: 2rem;
+    padding-left: 3rem;
+  }
+
+  .articleContainer {
+    min-width: 40vw;
+    min-height: 25rem;
+  }
+
+  .postTime {
+    max-width: 12rem;
+  }
+
+  .postHeader {
+    max-width: 12rem;
+  }
+
+  .postText {
+    max-width: 12rem;
+  }
+}
