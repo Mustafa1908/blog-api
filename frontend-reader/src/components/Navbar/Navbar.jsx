@@ -29,52 +29,57 @@ const Navbar = () => {
   };
 
   return (
-    <nav className={navbar.navbar}>
-      <Link className={navbar.navMainLink} to={"/blog"}>
-        Blog
-      </Link>
-      <section className={navbar.navSection}>
-        {user ? (
-          <>
-            <h2 className={navbar.navbarHeader}>Welcome, {user.username}!</h2>
-            {user.userRole == "author" && (
-              <>
-                <Link className={navbar.navLink} to={"/post"}>
-                  Edit-Posts
-                </Link>
-                <Link to="/post" className={`${navbar.navIcon} material-icons`}>
-                  edit
-                </Link>
-              </>
-            )}
-            <Link
-              to={"/blog"}
-              className={navbar.navLink}
-              onClick={handleLogout}
-            >
-              Logout
-            </Link>
-            <Link
-              to={"/blog"}
-              className={`${navbar.navIcon} material-icons`}
-              onClick={handleLogout}
-            >
-              logout
-            </Link>{" "}
-          </>
-        ) : (
-          <>
-            <Link className={navbar.navLink} to={"/register"}>
-              Register
-            </Link>
-            <Link className={navbar.navLink} to={"/login"}>
-              Login
-            </Link>
-          </>
-        )}
-      </section>
+    <>
+      <nav className={navbar.navbar}>
+        <Link className={navbar.navMainLink} to={"/blog"}>
+          Blog
+        </Link>
+        <section className={navbar.navSection}>
+          {user ? (
+            <>
+              <h2 className={navbar.navbarHeader}>Welcome, {user.username}!</h2>
+              {user.userRole == "author" && (
+                <>
+                  <Link className={navbar.navLink} to={"/post"}>
+                    Edit-Posts
+                  </Link>
+                  <Link
+                    to="/post"
+                    className={`${navbar.navIcon} material-icons`}
+                  >
+                    edit
+                  </Link>
+                </>
+              )}
+              <Link
+                to={"/blog"}
+                className={navbar.navLink}
+                onClick={handleLogout}
+              >
+                Logout
+              </Link>
+              <Link
+                to={"/blog"}
+                className={`${navbar.navIcon} material-icons`}
+                onClick={handleLogout}
+              >
+                logout
+              </Link>{" "}
+            </>
+          ) : (
+            <>
+              <Link className={navbar.navLink} to={"/register"}>
+                Register
+              </Link>
+              <Link className={navbar.navLink} to={"/login"}>
+                Login
+              </Link>
+            </>
+          )}
+        </section>
+      </nav>
       <Outlet />
-    </nav>
+    </>
   );
 };
 
