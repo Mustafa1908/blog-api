@@ -35,6 +35,7 @@
 
 .articleContainer:hover {
   cursor: pointer;
+  background-color: #e0f2fe;
 }
 
 .postTime {
