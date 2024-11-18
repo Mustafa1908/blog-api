@@ -68,10 +68,10 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <Link className={navbar.navLink} to={"/register"}>
+              <Link className={navbar.navbarLink} to={"/register"}>
                 Register
               </Link>
-              <Link className={navbar.navLink} to={"/login"}>
+              <Link className={navbar.navbarLink} to={"/login"}>
                 Login
               </Link>
             </>
