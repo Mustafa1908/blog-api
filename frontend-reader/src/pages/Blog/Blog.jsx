@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import blog from "./Blog.module.css";
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -21,22 +22,19 @@ const Blog = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Blog Component</h1>
-      <h1>Blog Posts</h1>
-      <div>
-        {posts.map((post) => (
-          <div key={post.id}>
-            {post.published === true && (
-              <a href={`/blog/post/${post.id}`}>
-                <span>{post.postTitle}</span>
-                <p>{post.postText}</p>
-              </a>
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
+    <main className={blog.main}>
+      {posts.map((post) =>
+        post.published === true ? (
+          <article className={blog.articleContainer} key={post.id}>
+            <a href={`/blog/post/${post.id}`}>
+              <span className={blog.postTime}>{post.createdAt}</span>
+              <h2 className={blog.postHeader}>{post.postTitle}</h2>
+              <p className={blog.postText}>{post.postText}</p>
+            </a>
+          </article>
+        ) : null
+      )}
+    </main>
   );
 };
 
