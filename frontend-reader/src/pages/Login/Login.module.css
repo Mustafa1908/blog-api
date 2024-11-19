@@ -1,0 +1,41 @@
+:root {
+  --step--2: clamp(0.7813rem, 0.7776rem + 0.0181vw, 0.8rem);
+  --step--1: clamp(0.9375rem, 0.9255rem + 0.0602vw, 1rem);
+  --step-0: clamp(1.125rem, 1.1009rem + 0.1205vw, 1.25rem);
+  --step-1: clamp(1.35rem, 1.309rem + 0.2048vw, 1.5625rem);
+  --step-2: clamp(1.62rem, 1.5558rem + 0.3211vw, 1.9531rem);
+  --step-3: clamp(1.944rem, 1.8481rem + 0.4794vw, 2.4414rem);
+  --step-4: clamp(2.3328rem, 2.1942rem + 0.693vw, 3.0518rem);
+  --step-5: clamp(2.7994rem, 2.6036rem + 0.9786vw, 3.8147rem);
+}
+
+.main {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+  min-height: 17vw;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5rem;
+  padding-left: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: 40%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  width: 90%;
+}
+
+@media (max-width: 1076px) {
+  .main {
+    width: 85%;
+  }
+}
