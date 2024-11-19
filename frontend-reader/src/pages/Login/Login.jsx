@@ -1,6 +1,9 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserTokenContext } from "../../app/App";
+import Input from "../../components/Input/Input";
+import FormButton from "../../components/FormButton/FormButton";
+import login from "./Login.module.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -44,33 +47,28 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value={formData.username}
-          onChange={handleLoginChange}
-          placeholder="Username"
-          required
+    <main className={login.main}>
+      <h1>Login</h1>
+      <form onSubmit={handleLogin} className={login.form}>
+        <Input
+          inputIdName="username"
+          inputType="text"
+          placeholderText="Username"
+          inputValue={formData.username}
+          onChangeFunction={handleLoginChange}
+          labelText={"Username"}
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={handleLoginChange}
-          placeholder="Password"
-          required
+        <Input
+          inputIdName="password"
+          inputType="password"
+          placeholderText="Password"
+          inputValue={formData.password}
+          onChangeFunction={handleLoginChange}
+          labelText={"Password"}
         />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+        <FormButton buttonText="Login" />
+      </form>
+    </main>
   );
 };
 
