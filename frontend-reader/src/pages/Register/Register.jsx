@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Input from "../../components/Input/Input";
+import FormButton from "../../components/FormButton/FormButton";
+import register from "./Register.module.css";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -11,12 +14,18 @@ const Register = () => {
   const navigate = useNavigate();
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
-    if (name === "userRole") {
-      setFormData({ ...formData, userRole: value });
+    if (type === "checkbox") {
+      setFormData({
+        ...formData,
+        userRole: checked ? value : "",
+      });
     } else {
-      setFormData({ ...formData, [name]: value });
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
   };
 
@@ -44,56 +53,49 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleRegisterSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
-          type="text"
-          name="username"
-          id="username"
-          value={formData.username}
-          onChange={handleChange}
-          placeholder="Username"
-          required
+    <main className={register.main}>
+      <form className={register.form} onSubmit={handleRegisterSubmit}>
+        <Input
+          inputIdName="username"
+          inputType="string"
+          placeholderText="Username"
+          inputValue={formData.username}
+          onChangeFunction={handleChange}
+          labelText={"Username"}
         />
-      </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          name="email"
-          id="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Email"
-          required
+        <Input
+          inputIdName="email"
+          inputType="email"
+          placeholderText="Email"
+          inputValue={formData.email}
+          onChangeFunction={handleChange}
+          labelText={"Email"}
         />
-      </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Password"
-          required
+        <Input
+          inputIdName="password"
+          inputType="password"
+          placeholderText="Password"
+          inputValue={formData.password}
+          onChangeFunction={handleChange}
+          labelText={"Password"}
         />
-      </div>
-      <div>
-        <input
-          type="radio"
-          id="author"
-          name="userRole"
-          value="author"
-          checked={formData.userRole === "author"}
-          onChange={handleChange}
-        />
-        <label htmlFor="author">Author</label>
-      </div>
-      <button type="submit">Register</button>
-    </form>
+        <fieldset className={register.checkboxInputContainer}>
+          <label className={register.checkboxLabel} htmlFor="author">
+            Author
+            <input
+              type="checkbox"
+              id="author"
+              name="userRole"
+              value="author"
+              className={register.checkboxInput}
+              checked={formData.userRole === "author"}
+              onChange={handleChange}
+            />
+          </label>
+        </fieldset>
+        <FormButton buttonText="Register" />
+      </form>
+    </main>
   );
 };
 
