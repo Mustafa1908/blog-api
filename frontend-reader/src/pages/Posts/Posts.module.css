@@ -1,33 +1,258 @@
-.modal {
+:root {
+  --step--2: clamp(0.7813rem, 0.7759rem + 0.0268vi, 0.8rem);
+  --step--1: clamp(0.9375rem, 0.9196rem + 0.0893vi, 1rem);
+  --step-0: clamp(1.125rem, 1.0893rem + 0.1786vi, 1.25rem);
+  --step-1: clamp(1.35rem, 1.2893rem + 0.3036vi, 1.5625rem);
+  --step-2: clamp(1.62rem, 1.5248rem + 0.4759vi, 1.9531rem);
+  --step-3: clamp(1.944rem, 1.8019rem + 0.7106vi, 2.4414rem);
+  --step-4: clamp(2.3328rem, 2.1274rem + 1.0271vi, 3.0518rem);
+  --step-5: clamp(2.7994rem, 2.5093rem + 1.4505vi, 3.8147rem);
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.createPostContainer {
+  min-width: 10%;
+  margin-left: 4rem;
+}
+
+.postsSection {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 3rem;
+  max-width: 120rem;
+  min-height: 44vh;
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  padding-left: 4rem;
+}
+
+.articleContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 0.3rem;
+  min-width: 19rem;
+  min-height: 25rem;
+  padding-top: 2rem;
+}
+
+.postTime {
+  word-break: break-word;
+  max-width: 15rem;
+  color: grey;
+  font-size: var(--step--1);
+}
+
+.postHeader {
+  font-size: var(--step-2);
+  font-weight: 700;
+  color: black;
+  word-break: break-word;
+  max-width: 14rem;
+}
+
+.postText {
+  color: grey;
+  word-break: break-word;
+  max-width: 14rem;
+  font-size: var(--step--1);
+  max-height: 8.5rem;
+  overflow: hidden;
+}
+
+.postsButtonsSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80%;
+}
+
+.buttonsContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 2rem;
+  padding-right: 3rem;
+  margin-left: 0.3rem;
+}
+
+.publishedStatusText {
+  padding-top: 1rem;
+  margin-left: 0.3rem;
+}
+
+.formSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
   z-index: 1000;
 }
 .modalContent {
-  background-color: white;
-  padding: 20px;
-  border-radius: 8px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-}
-.modalActions {
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: white;
+  min-height: 13vw;
+  border-radius: 0.5rem;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1rem;
+  padding-left: 3.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  width: 40%;
+}
+
+.createPostForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  width: 90%;
+}
+
+.textareaLabel {
+  font-weight: bold;
+}
+
+.postTextArea {
+  width: 100%;
+  border-radius: 0.2rem;
+  min-height: 15.5rem;
+  border: 1px solid purple;
+  padding-left: 0.1rem;
+  font-size: var(--step-0);
+}
+
+.modalActionsFooter {
+  display: flex;
+  justify-content: space-between;
   margin-top: 20px;
 }
-.modalActions button {
+.modalActionsFooter button {
   padding: 10px 20px;
   font-size: 16px;
   cursor: pointer;
 }
-.modalActions button:hover {
+.modalActionsFooter button:hover {
   opacity: 0.9;
+}
+
+@media (min-width: 220px) and (max-width: 597px) {
+  .createPostContainer {
+    margin-left: 1.5rem;
+    min-width: 20%;
+  }
+
+  .postsSection {
+    gap: 2rem;
+    max-width: 80rem;
+    min-height: 44vh;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    padding-left: 0rem;
+    justify-content: center;
+  }
+
+  .articleContainer {
+    min-width: 90vw;
+    min-height: 23rem;
+  }
+
+  .postTime {
+    min-width: 70vw;
+  }
+
+  .postHeader {
+    min-width: 75vw;
+  }
+
+  .postText {
+    min-width: 75vw;
+  }
+
+  .postsButtonsSection {
+    width: 84%;
+  }
+
+  .buttonsContainer {
+    width: 50%;
+  }
+
+  .modalContent {
+    width: 95%;
+  }
+}
+
+@media (min-width: 598px) and (max-width: 697px) {
+  .postsSection {
+    justify-content: center;
+    gap: 1rem;
+    padding-left: 0.3rem;
+    padding-right: 0.2rem;
+  }
+
+  .articleContainer {
+    min-width: 40vw;
+    min-height: 25rem;
+  }
+
+  .postTime {
+    max-width: 12rem;
+  }
+
+  .postHeader {
+    max-width: 12rem;
+  }
+
+  .postText {
+    max-width: 12rem;
+  }
+}
+
+@media (min-width: 598px) and (max-width: 610px) {
+  .createPostContainer {
+    margin-left: 1rem;
+    min-width: 20%;
+  }
+}
+
+@media (min-width: 611px) and (max-width: 850px) {
+  .createPostContainer {
+    margin-left: 6rem;
+    min-width: 20%;
+  }
+}
+
+@media (min-width: 598px) and (max-width: 854px) {
+  .postsSection {
+    justify-content: center;
+    gap: 1rem;
+    padding-left: 0.3rem;
+    padding-right: 0.2rem;
+  }
+}
+
+@media (min-width: 598px) and (max-width: 1110px) {
+  .modalContent {
+    width: 70%;
+  }
 }
