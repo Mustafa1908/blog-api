@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserTokenContext } from "../../app/App";
 import Input from "../../components/Input/Input";
-import FormButton from "../../components/FormButton/FormButton";
+import Button from "../../components/Button/Button";
 import login from "./Login.module.css";
 
 const Login = () => {
@@ -66,7 +66,7 @@ const Login = () => {
           onChangeFunction={handleLoginChange}
           labelText={"Password"}
         />
-        <FormButton buttonText="Login" />
+        <Button buttonText="Login" buttonColor={"#3b82f6"} />
       </form>
     </main>
   );
