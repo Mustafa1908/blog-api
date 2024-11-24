@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import allPosts from "./Posts.module.css";
 import { getUserInfo } from "../../utils/getUserInfo";
 import { useNavigate } from "react-router-dom";
+import Input from "../../components/Input/Input";
+import Button from "../../components/Button/Button";
 
 const Posts = () => {
   const [user, setUser] = useState(null);
@@ -113,70 +115,115 @@ const Posts = () => {
   };
 
   return (
-    <div>
-      <h1>All Blogs</h1>
-      <button onClick={openModal}>Create Post</button>{" "}
-      <div>
+    <main className={allPosts.main}>
+      <aside className={allPosts.createPostContainer}>
+        <Button
+          buttonText="Create Post"
+          buttonColor={"#008000"}
+          onClickFunction={openModal}
+        />
+      </aside>
+      <section className={allPosts.postsSection}>
         {posts.map((post) => (
-          <div key={post.id}>
-            <span>{post.postTitle} </span>
-            {post.published ? (
-              <>
-                <span>Published</span>
-                <button onClick={() => changePublicationStatus(post.id)}>
-                  Unpublish
-                </button>
-              </>
-            ) : (
-              <>
-                <span>Unpublished</span>
-                <button onClick={() => changePublicationStatus(post.id)}>
-                  Publish
-                </button>{" "}
-              </>
-            )}
-            <button onClick={() => deletePost(post.id)}>Delete post</button>
-            <p>{post.postText}</p>
-          </div>
+          <article className={allPosts.articleContainer} key={post.id}>
+            <a href={`/blog/post/${post.id}`}>
+              <span className={allPosts.postTime}>{post.createdAt}</span>
+              <h2 className={allPosts.postHeader}>{post.postTitle}</h2>
+              <p className={allPosts.postText}>{post.postText}</p>
+            </a>
+            <section className={allPosts.postsButtonsSection}>
+              {post.published ? (
+                <>
+                  <span className={allPosts.publishedStatusText}>
+                    Published
+                  </span>{" "}
+                  <div className={allPosts.buttonsContainer}>
+                    <Button
+                      buttonText="Hide"
+                      buttonColor={"#2b313a"}
+                      onClickFunction={changePublicationStatus}
+                      buttonWidth={"2rem"}
+                      functionArgument={post.id}
+                    />
+                    <Button
+                      buttonText="Delete"
+                      buttonColor={"#c70000"}
+                      onClickFunction={deletePost}
+                      buttonWidth={"2rem"}
+                      functionArgument={post.id}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <span className={allPosts.publishedStatusText}>
+                    Unpublished
+                  </span>
+                  <div className={allPosts.buttonsContainer}>
+                    <Button
+                      buttonText="Publish"
+                      buttonColor={"#3b82f6"}
+                      onClickFunction={changePublicationStatus}
+                      buttonWidth={"1rem"}
+                      functionArgument={post.id}
+                    >
+                      <p>hey</p>
+                    </Button>
+                    <Button
+                      buttonText="Delete"
+                      buttonColor={"#c70000"}
+                      onClickFunction={deletePost}
+                      buttonWidth={"1rem"}
+                      functionArgument={post.id}
+                    />
+                  </div>
+                </>
+              )}
+            </section>
+          </article>
         ))}
-      </div>
+      </section>
       {showModal && (
-        <div className={allPosts.modal}>
-          <div className={allPosts.modalContent}>
+        <section className={allPosts.formSection}>
+          <article className={allPosts.modalContent}>
             <h2>Create New Post</h2>
-            <form onSubmit={handleSubmitPost}>
-              <div>
-                <label htmlFor="postTitle">Title</label>
-                <input
-                  type="text"
-                  id="postTitle"
-                  name="postTitle"
-                  value={newPost.title}
-                  onChange={handlePostInputChanges}
-                  required
+            <form
+              className={allPosts.createPostForm}
+              onSubmit={handleSubmitPost}
+            >
+              <Input
+                inputIdName="postTitle"
+                inputType="text"
+                placeholderText="Post Title..."
+                inputValue={newPost.postTitle}
+                onChangeFunction={handlePostInputChanges}
+                labelText={"Post Title"}
+              />
+              <label htmlFor="postText" className={allPosts.textareaLabel}>
+                Message:{" "}
+              </label>
+              <textarea
+                name="postText"
+                id="postText"
+                className={allPosts.postTextArea}
+                placeholder="Post Text..."
+                value={newPost.postText}
+                onChange={handlePostInputChanges}
+                required
+              ></textarea>
+              <footer className={allPosts.modalActionsFooter}>
+                <Button
+                  buttonText="Cancel"
+                  buttonColor={"#c70000"}
+                  onClickFunction={closeModal}
                 />
-              </div>
-              <div>
-                <label htmlFor="postText">Text</label>
-                <textarea
-                  id="postText"
-                  name="postText"
-                  value={newPost.body}
-                  onChange={handlePostInputChanges}
-                  required
-                />
-              </div>
-              <div className={allPosts.modalActions}>
-                <button type="button" onClick={closeModal}>
-                  Cancel
-                </button>
-                <button type="submit">Create Post</button>
-              </div>
+                <Button buttonText="Create Post" buttonColor={"#4bc970"} />
+              </footer>
             </form>
-          </div>
-        </div>
+          </article>
+        </section>
       )}
-    </div>
+    </main>
   );
 };
 
