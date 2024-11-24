@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input";
-import FormButton from "../../components/FormButton/FormButton";
+import Button from "../../components/Button/Button";
 import register from "./Register.module.css";
 
 const Register = () => {
@@ -57,7 +57,7 @@ const Register = () => {
       <form className={register.form} onSubmit={handleRegisterSubmit}>
         <Input
           inputIdName="username"
-          inputType="string"
+          inputType="text"
           placeholderText="Username"
           inputValue={formData.username}
           onChangeFunction={handleChange}
@@ -93,7 +93,7 @@ const Register = () => {
             />
           </label>
         </fieldset>
-        <FormButton buttonText="Register" />
+        <Button buttonText="Register" />
       </form>
     </main>
   );
