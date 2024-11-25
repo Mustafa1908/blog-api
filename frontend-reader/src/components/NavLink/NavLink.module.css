@@ -1,0 +1,25 @@
+.navLink,
+.navbarLink {
+  background-color: transparent;
+  color: white;
+  font-size: var(--step--1);
+  border: 3px solid transparent;
+}
+
+.navLink:hover,
+.navbarLink:hover {
+  color: white;
+  border-bottom: 2px solid white;
+}
+
+@media (max-width: 462px) {
+  .navLink {
+    display: none;
+  }
+}
+
+@media (max-width: 574px) {
+  .navLink {
+    font-size: var(--step--1);
+  }
+}
