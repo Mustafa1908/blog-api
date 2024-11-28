@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import authorPost from "./Post.module.css";
+import Button from "../../components/Button/Button";
 
 const Post = () => {
   const [user, setUser] = useState(null);
@@ -82,6 +84,8 @@ const Post = () => {
       if (!response.ok) {
         throw new Error("Failed to submit comment");
       }
+
+      setNewComment("");
       getPostComments();
     } catch (error) {
       console.error("Failed to submit comment:", error);
@@ -149,32 +153,61 @@ const Post = () => {
   };
 
   return (
-    <div>
-      <h1>Blog Post</h1>
-      <div>
-        <div key={post.id}>
-          <span>{post.postTitle}</span>
-          <span> {post.createdAt}</span>
-          <span> By {post.author?.username || "Unknown Author"}</span>
-          <p>{post.postText}</p>
-        </div>
-      </div>
-      <h2>Blog Comments</h2>
-      <div>
+    <main className={authorPost.main}>
+      <article className={authorPost.mainPostContainer}>
+        <section className={authorPost.authorContainer}>
+          <time className={authorPost.dateText}> {post.createdAt}</time>
+          <span className={authorPost.authorText}>
+            {" "}
+            By {post.author?.username || "Unknown Author"}
+          </span>
+        </section>
+        <section className={authorPost.postContentContainer}>
+          <h1 className={authorPost.postHeader}>{post.postTitle}</h1>
+          <p className={authorPost.postText}>{post.postText}</p>
+        </section>
+      </article>
+      <h3 className={authorPost.commentHeader}>
+        {postComments.length} Comments
+      </h3>
+      <form
+        className={authorPost.newCommentForm}
+        onSubmit={(event) => handleCommentSubmit(user?.userId, event)}
+      >
+        <label className={authorPost.newCommentLabel} htmlFor="comment">
+          New comment:
+        </label>
+        <textarea
+          id="comment"
+          value={newComment}
+          onChange={handleNewCommentChange}
+          placeholder="Write a comment..."
+          className={authorPost.commentTextArea}
+          required
+        />
+        <Button buttonText={"Create Comment"} buttonColor={"#3b82f6"} />
+      </form>
+      <section className={authorPost.commentContainer}>
         {postComments.map((postComment) => (
-          <div key={postComment.id}>
-            <span>{postComment.createdAt}</span>
-            <span> By {postComment.user?.username || "Unknown Author"}</span>
+          <article className={authorPost.userContainer} key={postComment.id}>
+            <span>
+              {" "}
+              From{" "}
+              <strong>
+                {postComment.user?.username || "Unknown Author"}{" "}
+              </strong>{" "}
+            </span>
+            <time>on {postComment.createdAt}</time>
             {user.userRole === "author" ? (
               <>
                 <span
-                  className="material-icons"
+                  className={`material-icons ${authorPost.commentIcon}`}
                   onClick={() => deleteComment(postComment.id)}
                 >
                   delete
                 </span>
                 <span
-                  className="material-icons"
+                  className={`material-icons ${authorPost.commentIcon}`}
                   onClick={() =>
                     startEditing(postComment.id, postComment.comment)
                   }
@@ -185,36 +218,36 @@ const Post = () => {
             ) : null}
 
             {editingCommentId === postComment.id ? (
-              <div>
+              <div className={authorPost.userCommentContainer}>
                 <textarea
                   value={editCommentText}
                   onChange={handleEditCommentChange}
                   placeholder="Edit your comment"
+                  className={authorPost.editCommentTextarea}
                   required
                 />
-                <button onClick={() => editComment(postComment.id)}>
+                <button
+                  className={authorPost.saveButton}
+                  onClick={() => editComment(postComment.id)}
+                >
                   Save
                 </button>
-                <button onClick={cancelEditing}>Cancel</button>
+                <Button
+                  buttonText={"Cancel"}
+                  buttonColor={"#c70000"}
+                  onClickFunction={cancelEditing}
+                  buttonWidth={"10px"}
+                />
               </div>
             ) : (
-              <p>{postComment.comment}</p>
+              <>
+                <p className={authorPost.userComment}>{postComment.comment}</p>
+              </>
             )}
-          </div>
+          </article>
         ))}
-      </div>
-      <form onSubmit={(event) => handleCommentSubmit(user?.userId, event)}>
-        <label htmlFor="comment">Add a comment:</label>
-        <textarea
-          id="comment"
-          value={newComment}
-          onChange={handleNewCommentChange}
-          placeholder="Add a comment..."
-          required
-        />
-        <button type="submit">Submit Comment</button>
-      </form>
-    </div>
+      </section>
+    </main>
   );
 };
 
