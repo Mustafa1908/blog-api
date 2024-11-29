@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../../components/Input/Input";
 import Button from "../../components/Button/Button";
@@ -12,6 +12,10 @@ const Register = () => {
     userRole: "",
   });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Register";
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -54,6 +58,7 @@ const Register = () => {
 
   return (
     <main className={register.main}>
+      <h1>Register</h1>
       <form className={register.form} onSubmit={handleRegisterSubmit}>
         <Input
           inputIdName="username"

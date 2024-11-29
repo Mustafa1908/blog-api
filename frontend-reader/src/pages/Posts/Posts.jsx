@@ -32,6 +32,7 @@ const Posts = () => {
   };
 
   useEffect(() => {
+    document.title = "Edit Posts";
     getUserInfo(setUser);
     getAllPosts();
   }, []);
@@ -166,9 +167,7 @@ const Posts = () => {
                       onClickFunction={changePublicationStatus}
                       buttonWidth={"1rem"}
                       functionArgument={post.id}
-                    >
-                      <p>hey</p>
-                    </Button>
+                    ></Button>
                     <Button
                       buttonText="Delete"
                       buttonColor={"#c70000"}

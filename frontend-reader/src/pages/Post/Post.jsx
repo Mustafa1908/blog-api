@@ -57,6 +57,7 @@ const Post = () => {
     getPostComments();
   }, [postId]);
 
+  document.title = post.postTitle;
   const handleNewCommentChange = (event) => {
     setNewComment(event.target.value);
   };

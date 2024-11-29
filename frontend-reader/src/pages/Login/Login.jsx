@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserTokenContext } from "../../app/App";
 import Input from "../../components/Input/Input";
@@ -12,6 +12,10 @@ const Login = () => {
   });
   const { token, setToken } = useContext(UserTokenContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Login";
+  }, []);
 
   const handleLoginChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

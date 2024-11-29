@@ -18,6 +18,7 @@ const Blog = () => {
   };
 
   useEffect(() => {
+    document.title = "Blog Api";
     getAllPosts();
   }, []);
 
