@@ -199,7 +199,7 @@ const Post = () => {
               </strong>{" "}
             </span>
             <time>on {postComment.createdAt}</time>
-            {user.userRole === "author" ? (
+            {user && user.userRole && user.userRole === "author" ? (
               <>
                 <span
                   className={`material-icons ${authorPost.commentIcon}`}
