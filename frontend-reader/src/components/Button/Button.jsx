@@ -3,14 +3,14 @@ import button from "./Button.module.css";
 
 const Login = ({
   buttonText,
-  buttonColor,
-  onClickFunction,
+  buttonColor = "#3b82f6",
+  onClickFunction = () => {},
   buttonWidth,
   functionArgument,
 }) => {
   const buttonStyles = {
     width: buttonWidth || "auto",
-    backgroundColor: buttonColor || "gray",
+    backgroundColor: buttonColor,
   };
 
   return (
@@ -30,12 +30,7 @@ Login.propTypes = {
   buttonColor: PropTypes.string,
   onClickFunction: PropTypes.func,
   buttonWidth: PropTypes.string,
-  functionArgument: PropTypes.isRequired,
-};
-
-Login.defaultProps = {
-  buttonColor: "#3b82f6",
-  onClickFunction: () => {},
+  functionArgument: PropTypes.any,
 };
 
 export default Login;
