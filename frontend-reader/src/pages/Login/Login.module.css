@@ -16,6 +16,10 @@
   width: 40%;
 }
 
+.errorMessage {
+  color: #d31717;
+}
+
 .form {
   display: flex;
   flex-direction: column;
