@@ -10,7 +10,8 @@ const Login = () => {
     username: "",
     password: "",
   });
-  const { token, setToken } = useContext(UserTokenContext);
+  const [errorMessage, setErrorMessage] = useState("");
+  const { setToken } = useContext(UserTokenContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
     try {
       const response = await fetch("http://localhost:8000/login", {
@@ -43,16 +45,24 @@ const Login = () => {
         navigate("/blog");
       } else {
         const errorData = await response.json();
-        console.error("Registration error:", errorData.message);
+        setErrorMessage(errorData.message || "Invalid credentials");
       }
     } catch (error) {
-      console.error("Error during registration:", error);
+      console.error("Error during login:", error);
+      setErrorMessage("An unexpected error occurred. Please try again later.");
     }
   };
-
+  console.log(errorMessage);
   return (
     <main className={login.main}>
       <h1>Login</h1>
+
+      {errorMessage && (
+        <div className={login.errorContainer}>
+          <p className={login.errorMessage}>{errorMessage}</p>
+        </div>
+      )}
+
       <form onSubmit={handleLogin} className={login.form}>
         <Input
           inputIdName="username"
