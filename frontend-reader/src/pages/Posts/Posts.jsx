@@ -10,6 +10,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ postTitle: "", postText: "" });
   const [showModal, setShowModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
   const navigate = useNavigate();
 
   if (user !== null) {
@@ -84,6 +85,14 @@ const Posts = () => {
 
   const handleSubmitPost = async (e) => {
     e.preventDefault();
+
+    // Check if the post title is longer than 84 characters
+    if (newPost.postTitle.length > 84) {
+      setErrorMessage("Post title cannot exceed 84 characters.");
+      return; // Prevent form submission
+    } else {
+      setErrorMessage(""); // Clear the error if title is valid
+    }
 
     try {
       const response = await fetch("http://localhost:8000/post/new", {
@@ -186,6 +195,9 @@ const Posts = () => {
         <section className={allPosts.formSection}>
           <article className={allPosts.modalContent}>
             <h2>Create New Post</h2>
+            {errorMessage && (
+              <p className={allPosts.errorText}>{errorMessage}</p>
+            )}
             <form
               className={allPosts.createPostForm}
               onSubmit={handleSubmitPost}

@@ -29,8 +29,9 @@
   background-color: white;
   border-radius: 0.3rem;
   min-width: 19rem;
-  min-height: 25rem;
+  min-height: 27rem;
   padding-top: 2rem;
+  padding-bottom: 0.5rem;
 }
 
 .articleContainer:hover {
@@ -46,7 +47,7 @@
 }
 
 .postHeader {
-  font-size: var(--step-2);
+  font-size: var(--step-1);
   font-weight: 700;
   color: black;
   word-break: break-word;
@@ -58,7 +59,7 @@
   word-break: break-word;
   max-width: 14rem;
   font-size: var(--step--1);
-  max-height: 10.5rem;
+  max-height: 4.5rem;
   overflow: hidden;
 }
 
