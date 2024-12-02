@@ -22,6 +22,7 @@ const Login = ({
         onChange={onChangeFunction}
         placeholder={placeholderText}
         className={input.input}
+        required
       />
     </>
   );
