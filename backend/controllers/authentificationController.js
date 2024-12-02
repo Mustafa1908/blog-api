@@ -14,8 +14,28 @@ const registerUser = async (req, res) => {
       where: { username },
     });
 
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
+    const existingEmail = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser && existingEmail) {
+      return res.status(400).json({
+        message: "Username and Email already exist",
+        errors: {
+          username: "User already exists",
+          email: "Email already exists",
+        },
+      });
+    } else if (existingUser) {
+      return res.status(400).json({
+        message: "Username already exists",
+        errors: { username: "User already exists" },
+      });
+    } else if (existingEmail) {
+      return res.status(400).json({
+        message: "Email already exists",
+        errors: { email: "Email already exists" },
+      });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -28,11 +48,9 @@ const registerUser = async (req, res) => {
         role: userRole,
       },
     });
-
-    res.status(201).json({ message: "User registered successfully", user });
+    console.log("User registered successfully", user);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.log(error);
   }
 };
 
