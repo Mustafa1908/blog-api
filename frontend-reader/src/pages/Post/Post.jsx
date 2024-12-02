@@ -171,23 +171,26 @@ const Post = () => {
       <h3 className={authorPost.commentHeader}>
         {postComments.length} Comments
       </h3>
-      <form
-        className={authorPost.newCommentForm}
-        onSubmit={(event) => handleCommentSubmit(user?.userId, event)}
-      >
-        <label className={authorPost.newCommentLabel} htmlFor="comment">
-          New comment:
-        </label>
-        <textarea
-          id="comment"
-          value={newComment}
-          onChange={handleNewCommentChange}
-          placeholder="Write a comment..."
-          className={authorPost.commentTextArea}
-          required
-        />
-        <Button buttonText={"Create Comment"} buttonColor={"#3b82f6"} />
-      </form>
+      {user && (
+        <form
+          className={authorPost.newCommentForm}
+          onSubmit={(event) => handleCommentSubmit(user?.userId, event)}
+        >
+          <label className={authorPost.newCommentLabel} htmlFor="comment">
+            New comment:
+          </label>
+          <textarea
+            id="comment"
+            value={newComment}
+            onChange={handleNewCommentChange}
+            placeholder="Write a comment..."
+            className={authorPost.commentTextArea}
+            required
+          />
+          <Button buttonText={"Create Comment"} buttonColor={"#3b82f6"} />
+        </form>
+      )}
+
       <section className={authorPost.commentContainer}>
         {postComments.map((postComment) => (
           <article className={authorPost.userContainer} key={postComment.id}>
