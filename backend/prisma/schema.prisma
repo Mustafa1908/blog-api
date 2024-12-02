@@ -14,7 +14,7 @@ model User {
 
 model Post {
   id      Int      @id @default(autoincrement())
-  postTitle   String   @unique
+  postTitle   String   @unique  @db.VarChar(84)
   postText    String
   published Boolean @default(true)
   createdAt DateTime @default(now()) 
