@@ -68,12 +68,13 @@ const getAllPostComments = async (req, res) => {
 };
 
 const createPost = async (req, res) => {
-  const { postTitle, postText } = req.body;
+  const { postTitle, postText, createdAt } = req.body;
   try {
     const post = await prisma.post.create({
       data: {
         postTitle: postTitle,
         postText: postText,
+        createdAt: createdAt,
         authorId: req.authData.userId,
       },
     });
@@ -83,6 +84,7 @@ const createPost = async (req, res) => {
       post: {
         postTitle: post.postTitle,
         postText: post.postText,
+        createdAt: post.createdAt,
         authorId: post.authorId,
       },
     });
