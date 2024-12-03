@@ -17,7 +17,7 @@ model Post {
   postTitle   String   @unique  @db.VarChar(84)
   postText    String
   published Boolean @default(true)
-  createdAt DateTime @default(now()) 
+  createdAt String
   author User @relation(fields: [authorId], references: [id])
   authorId  Int
   comment Comment[]
