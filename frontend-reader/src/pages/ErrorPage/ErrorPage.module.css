@@ -31,6 +31,6 @@
 }
 
 .errorLink:hover {
-  color: black;
-  border-bottom: 3px solid white;
+  color: white;
+  border-bottom: 3px solid black;
 }
