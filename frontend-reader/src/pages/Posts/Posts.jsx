@@ -94,6 +94,22 @@ const Posts = () => {
       setErrorMessage(""); // Clear the error if title is valid
     }
 
+    // Get the formatted date
+    const options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      new Date()
+    );
+    const finalFormattedDate =
+      formattedDate.replace(" ", ", ").replace(" 2024", "") + " 2024";
+
+    // Add finalFormattedDate to newPost state
+    const postWithDate = { ...newPost, createdAt: finalFormattedDate };
+
     try {
       const response = await fetch("http://localhost:8000/post/new", {
         method: "POST",
@@ -101,7 +117,7 @@ const Posts = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(newPost),
+        body: JSON.stringify(postWithDate), // Send the updated post with the date
       });
 
       if (!response.ok) {
