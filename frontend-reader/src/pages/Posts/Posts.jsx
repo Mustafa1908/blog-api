@@ -86,15 +86,13 @@ const Posts = () => {
   const handleSubmitPost = async (e) => {
     e.preventDefault();
 
-    // Check if the post title is longer than 84 characters
     if (newPost.postTitle.length > 84) {
       setErrorMessage("Post title cannot exceed 84 characters.");
-      return; // Prevent form submission
+      return;
     } else {
-      setErrorMessage(""); // Clear the error if title is valid
+      setErrorMessage("");
     }
 
-    // Get the formatted date
     const options = {
       weekday: "long",
       day: "numeric",
@@ -107,7 +105,6 @@ const Posts = () => {
     const finalFormattedDate =
       formattedDate.replace(" ", ", ").replace(" 2024", "") + " 2024";
 
-    // Add finalFormattedDate to newPost state
     const postWithDate = { ...newPost, createdAt: finalFormattedDate };
 
     try {
@@ -117,7 +114,7 @@ const Posts = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(postWithDate), // Send the updated post with the date
+        body: JSON.stringify(postWithDate),
       });
 
       if (!response.ok) {
