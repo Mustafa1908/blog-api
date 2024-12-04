@@ -45,7 +45,6 @@ const Register = () => {
 
     let errors = {};
 
-    // Validate username length
     if (!formData.username) errors.username = "Username is required.";
     else if (formData.username.length > 50)
       errors.username = "Username cannot exceed 50 characters.";
@@ -57,24 +56,18 @@ const Register = () => {
 
     if (Object.keys(errors).length > 0) return; // If validation fails, don't submit
 
-    try {
-      const response = await fetch("http://localhost:8000/user", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      if (response.ok) {
-        navigate("/login");
-      } else {
-        // If response is not ok, extract the error message from the server
-        const errorData = await response.json();
-        setErrorMessage(errorData.message); // Set the error message to display globally
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
-      setErrorMessage("An unexpected error occurred. Please try again."); // Generic error message
+    const response = await fetch("http://localhost:8000/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      setErrorMessage(errorData.message);
+    } else {
+      navigate("/login");
     }
   };
 
