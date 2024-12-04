@@ -69,6 +69,21 @@ const Post = () => {
   const handleCommentSubmit = async (userId, event) => {
     event.preventDefault();
 
+    const options = {
+      weekday: "long",
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    };
+    const formattedDate = new Intl.DateTimeFormat("en-GB", options).format(
+      new Date()
+    );
+    const finalFormattedDate =
+      formattedDate.replace(" ", ", ").replace(" 2024", "") + " 2024";
+    const commentWithDate = {
+      comment: newComment,
+      createdAt: finalFormattedDate,
+    };
     try {
       const response = await fetch(
         `http://localhost:8000/blog/${userId}/${postId}/comment`,
@@ -78,7 +93,7 @@ const Post = () => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
-          body: JSON.stringify({ comment: newComment }),
+          body: JSON.stringify(commentWithDate),
         }
       );
 
