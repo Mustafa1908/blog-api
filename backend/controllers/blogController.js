@@ -160,7 +160,7 @@ const changePublishedStatue = async (req, res) => {
 };
 
 const createComment = async (req, res) => {
-  const { comment } = req.body;
+  const { comment, createdAt } = req.body;
   const { postId, userId } = req.params;
 
   if (!comment) {
@@ -171,6 +171,7 @@ const createComment = async (req, res) => {
     const userComment = await prisma.comment.create({
       data: {
         comment: comment,
+        createdAt: createdAt,
         postId: parseInt(postId),
         userId: parseInt(userId),
       },
@@ -179,6 +180,7 @@ const createComment = async (req, res) => {
     return res.status(201).json({
       message: "Comment created successfully",
       comment: userComment,
+      createdAt: createdAt,
       postId: postId,
       userId: userId,
     });
