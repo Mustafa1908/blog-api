@@ -10,7 +10,7 @@ const Posts = () => {
   const [posts, setPosts] = useState([]);
   const [newPost, setNewPost] = useState({ postTitle: "", postText: "" });
   const [showModal, setShowModal] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // New state for error message
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
 
   if (user !== null) {
